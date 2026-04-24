@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Muks — Premium Car Rental & Hosting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Custom cursor (premium touch) - hidden on mobile for better tap */
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1.5px solid rgba(0,0,0,0.2);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+            width: 100%;
+        }
+
+        @media (max-width: 968px) {
+            .container { padding: 0 32px; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 20px; }
+        }
+
+        /* Navigation - Premium */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        @media (max-width: 480px) {
+    .nav-links {
+        gap: 1.25rem; /* slightly more breathing room */
+    }
+
+    .nav-links a {
+        padding: 0.75rem 0.5rem; /* bigger tap area */
+        font-size: 1rem; /* restore readable size */
+    }
+}
+
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: baseline;
+            gap: 0.25rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo i {
+            color: #000;
+            font-size: 1.5rem;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #000 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #000;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a i, .nav-links button i {
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid #f0f0f0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a, .nav-links button {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .nav-links a i, .nav-links button i {
+                margin-right: 0.75rem;
+            }
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: color 0.2s;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #000;
+            transform: scaleX(0);
+            transition: transform 0.2s;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-glass {
+            background: rgba(0,0,0,0.05);
+            border: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-glass:hover {
+            background: #000;
+            color: white;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 0 60px;
+                text-align: center;
+            }
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
+            clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+            z-index: 0;
+        }
+
+        @media (max-width: 968px) {
+            .hero-bg { display: none; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                margin: 0 auto;
+                text-align: center;
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0,0,0,0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 968px) {
+            .hero h1 { font-size: 3rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 20px;
+            padding: 0.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .search-card {
+                flex-direction: column;
+            }
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            border: 1px solid #f0f0f0;
+            border-radius: 16px;
+            font-size: 16px; /* prevent iOS zoom */
+            transition: all 0.2s;
+            min-width: 0;
+        }
+
+        @media (max-width: 768px) {
+            .search-input {
+                width: 100%;
+            }
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .trust-badge {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .trust-badge {
+                justify-content: center;
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 50px 0;
+            }
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            padding: 0 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-header {
+                margin-bottom: 2rem;
+            }
+        }
+
+        .section-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 968px) {
+            .section-header h2 { font-size: 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .section-header h2 { font-size: 1.75rem; }
+        }
+
+        .section-header p {
+            color: #6b7280;
+            font-size: 1.125rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-header p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 968px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        .feature-item {
+            padding: 2rem;
+            border-radius: 24px;
+            transition: all 0.3s;
+            background: #ffffff;
+            border: 1px solid #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            .feature-item {
+                padding: 1.5rem;
+            }
+        }
+
+        .feature-item:hover {
+            transform: translateY(-8px);
+            border-color: #e5e5e5;
+            box-shadow: 0 20px 30px -15px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: #f5f5f5;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Car Grid - CRITICAL FIX for iPhone 6: cards now show properly */
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Responsive adjustments: ensures cards always visible on iPhone 6 (375px width) */
+        @media (max-width: 968px) {
+            .car-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        /* iPhone 6 specific and smaller devices: single column for readability and cards always appear */
+        @media (max-width: 640px) {
+            .car-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Additional safeguard for very narrow viewports: ensures each car card takes full width */
+        @media (max-width: 480px) {
+            .car-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            .car-card {
+                width: 100%;
+                margin: 0 auto;
+            }
+        }
+
+        .car-card {
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .car-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.15);
+        }
+
+        .car-img {
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f5f5f5; /* fallback background in case image loading delayed */
+        }
+
+        @media (max-width: 768px) {
+            .car-img {
+                height: 220px;
+            }
+        }
+        @media (max-width: 480px) {
+            .car-img {
+                height: 200px;
+            }
+        }
+
+        .car-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+            display: block; /* ensures no extra spacing */
+        }
+
+        .car-card:hover .car-img img {
+            transform: scale(1.08);
+        }
+
+        .car-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .car-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 768px) {
+            .car-info {
+                padding: 1.25rem;
+            }
+        }
+
+        .car-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-meta {
+            display: flex;
+            gap: 1rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin: 0.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0.75rem 0;
+        }
+
+        .car-price span {
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #6b7280;
+        }
+
+        /* Owner section and others compact */
+        .owner-showcase {
+            background: #fafafa;
+            border-radius: 48px;
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        @media (max-width: 968px) {
+            .owner-showcase {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .owner-showcase {
+                padding: 1.5rem;
+                border-radius: 32px;
+            }
+        }
+
+        .owner-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 480px) {
+            .owner-stats {
+                gap: 1.5rem;
+                justify-content: space-between;
+            }
+        }
+
+        .stat h4 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 480px) {
+            .stat h4 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .stat p {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 968px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        .testimonial-card {
+            padding: 2rem;
+            background: #fafafa;
+            border-radius: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e5e5e5;
+            margin-bottom: 1rem;
+            background-size: cover;
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section {
+            background: #000;
+            color: white;
+            text-align: center;
+            border-radius: 48px;
+            padding: 4rem;
+            width: 100%;
+        }
+
+        @media (max-width: 968px) {
+            .cta-section {
+                padding: 3rem 2rem;
+                border-radius: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cta-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .cta-section h2 {
+                font-size: 1.75rem;
+            }
+        }
+
+        .btn-white {
+            background: white;
+            color: black;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        @media (max-width: 768px) {
+            .btn-white {
+                padding: 0.875rem 1.5rem;
+                margin-bottom: 0.75rem;
+            }
+        }
+
+        .btn-white:hover {
+            transform: scale(1.02);
+        }
+
+        .footer {
+            background: #000;
+            color: #9ca3af;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                margin-top: 2rem;
+                padding: 3rem 0 2rem;
+            }
+        }
+
+        .modal > div {
+            max-width: 500px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 480px) {
+            .modal > div {
+                width: 95%;
+                padding: 1.5rem !important;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.6s ease forwards;
+        }
+        
+        /* Footer Grid Fix */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+/* Mobile layout: 2 columns (left & right grouping) */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+}
+
+/* Extra small (iPhone 6): tighter but clean */
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+}
+        input, select, textarea {
+    font-size: 16px;
+}
+    </style>
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-car"></i>
+                <span>muks car rental</span>
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#home" onclick="closeMobileMenu()"><i class="fas fa-home"></i> Home</a>
+                <a href="#cars" onclick="closeMobileMenu()"><i class="fas fa-car-side"></i> Vehicles</a>
+                <a href="#owners" onclick="closeMobileMenu()"><i class="fas fa-chart-line"></i> For Owners</a>
+                <a href="#" onclick="openOwnerModal(); closeMobileMenu()"><i class="fas fa-plus-circle"></i> List your car</a>
+                <button class="btn-glass" onclick="openLoginModal(); closeMobileMenu()"><i class="fas fa-sign-in-alt"></i> Sign in →</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-bg"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-badge">✨ Trusted by 10,000+ drivers</span>
+                    <h1>Rent a car.<br>Or earn from yours.</h1>
+                    <p>Premium car rental marketplace. Choose from 500+ luxury vehicles or list your own — we handle insurance, maintenance & support.</p>
+                    <div class="search-card">
+                        <input type="text" placeholder="📍 Pickup location" class="search-input">
+                        <input type="date" class="search-input">
+                        <input type="date" class="search-input">
+                        <button class="btn-glass" style="background:#000; color:white;" onclick="searchCars()">Search →</button>
+                    </div>
+                    <div class="trust-badge">
+                        <span><i class="fas fa-shield-alt"></i> Fully insured</span>
+                        <span><i class="fas fa-headset"></i> 24/7 support</span>
+                        <span><i class="fas fa-clock"></i> Instant booking</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">Why choose us</div>
+                    <h2>Effortless mobility,<br>premium experience</h2>
+                    <p>Everything you need for a seamless rental or hosting experience</p>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Full insurance coverage</h3><p>Commercial rental insurance included on every trip. Zero liability for owners.</p></div>
+                    <div class="feature-item"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><h3>70% revenue for owners</h3><p>Keep the majority of earnings. We handle operations, you earn passive income.</p></div>
+                    <div class="feature-item"><div class="feature-icon"><i class="fas fa-concierge-bell"></i></div><h3>Premium concierge</h3><p>Dedicated support team available 24/7 for all your needs.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cars Section - Cards will always be visible on iPhone 6 due to responsive fixes -->
+        <section id="cars" style="background: #fafafa;">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">Curated fleet</div>
+                    <h2>Drive something extraordinary</h2>
+                    <p>From daily drivers to exotic supercars</p>
+                </div>
+                <div class="car-grid" id="carGrid"></div>
+            </div>
+        </section>
+
+        <section id="owners">
+            <div class="container">
+                <div class="owner-showcase">
+                    <div>
+                        <div class="section-tag">For car owners</div>
+                        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Turn your car into income</h2>
+                        <p style="color: #6b7280; margin-bottom: 1.5rem;">Your vehicle sits idle 95% of the time. List it with Muks and earn $500+ monthly while we handle everything.</p>
+                        <div class="owner-stats"><div class="stat"><h4>$850</h4><p>Avg. monthly earnings</p></div><div class="stat"><h4>24/7</h4><p>Full management</p></div><div class="stat"><h4>100%</h4><p>Stress-free</p></div></div>
+                        <button class="btn-glass" style="background:#000; color:white; padding: 0.875rem 2rem;" onclick="openOwnerModal()">List your car →</button>
+                    </div>
+                    <div><img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width:100%; border-radius: 24px;" alt="Car key"></div>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: #fafafa;">
+            <div class="container">
+                <div class="section-header"><div class="section-tag">Testimonials</div><h2>Loved by drivers & owners</h2></div>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card"><div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/1.jpg');"></div><p class="testimonial-text">"Incredible experience. Rented a Tesla for the weekend — seamless pickup and dropoff. The car was spotless."</p><strong>Sarah Johnson</strong><p style="color: #9ca3af; font-size: 0.75rem;">Renter</p></div>
+                    <div class="testimonial-card"><div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/2.jpg');"></div><p class="testimonial-text">"Listed my BMW and earned $1,200 in the first month. Muks handles everything — best decision ever."</p><strong>Michael Chen</strong><p style="color: #9ca3af; font-size: 0.75rem;">Car owner</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section><div class="container"><div class="cta-section"><h2>Ready to drive or earn?</h2><p style="margin-bottom: 2rem; color: #9ca3af;">Join thousands already using Muks</p><button class="btn-white" onclick="openOwnerModal()">List your car</button><button class="btn-glass" style="background: rgba(255,255,255,0.1); color: white; margin-left: 1rem;" onclick="searchCars()">Browse cars</button></div></div></section>
+    </main>
+
+    <footer class="footer"><div class="container"><div class="footer-grid" style="margin-bottom: 3rem;"><div><h3 style="color:white; margin-bottom:1rem;">muks</h3><p>Premium car rental<br>& fleet management</p></div><div><h3 style="color:white; margin-bottom:1rem;">Rent</h3><p>All vehicles</p><p>Luxury fleet</p><p>Electric cars</p></div><div><h3 style="color:white; margin-bottom:1rem;">Owners</h3><p>List your car</p><p>Revenue calculator</p><p>Insurance</p></div><div><h3 style="color:white; margin-bottom:1rem;">Company</h3><p>About</p><p>Contact</p><p>Terms</p></div></div><hr style="border-color:#1f2937;"><p style="text-align: center; margin-top: 2rem; font-size: 0.75rem;">© 2026 Muks Car Rental. All rights reserved.</p></div></footer>
+
+    <div id="ownerModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:2000; justify-content:center; align-items:center;"><div style="background:white; border-radius:32px; max-width:500px; width:90%; padding:2rem;"><h2 style="margin-bottom:1.5rem;">List your car</h2><form id="ownerForm"><input type="text" placeholder="Full name" style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #e5e5e5; border-radius:12px;" required><input type="email" placeholder="Email" style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #e5e5e5; border-radius:12px;" required><input type="text" placeholder="Car model" style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #e5e5e5; border-radius:12px;" required><input type="number" placeholder="Daily rate ($)" style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #e5e5e5; border-radius:12px;" required><button type="submit" style="width:100%; background:#000; color:white; padding:0.875rem; border:none; border-radius:12px; font-weight:600;">Submit →</button></form><button onclick="closeOwnerModal()" style="width:100%; margin-top:1rem; padding:0.75rem; background:#f5f5f5; border:none; border-radius:12px;">Cancel</button></div></div>
+    <div id="loginModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:2000; justify-content:center; align-items:center;"><div style="background:white; border-radius:32px; max-width:400px; width:90%; padding:2rem;"><h2 style="margin-bottom:1.5rem;">Welcome back</h2><form id="loginForm"><input type="email" placeholder="Email" style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #e5e5e5; border-radius:12px;" required><input type="password" placeholder="Password" style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #e5e5e5; border-radius:12px;" required><button type="submit" style="width:100%; background:#000; color:white; padding:0.875rem; border:none; border-radius:12px; font-weight:600;">Sign in →</button></form><button onclick="closeLoginModal()" style="width:100%; margin-top:1rem; padding:0.75rem; background:#f5f5f5; border:none; border-radius:12px;">Cancel</button></div></div>
+<script>
+    var cars = [
+        { name: "Porsche 911 Turbo", year: "2024", price: 299, passengers: 4, trans: "Auto", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80", badge: "Exotic" },
+        { name: "Tesla Model S Plaid", year: "2024", price: 189, passengers: 5, trans: "Auto", img: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80", badge: "Electric" },
+        { name: "Range Rover Sport", year: "2023", price: 199, passengers: 5, trans: "Auto", img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80", badge: "SUV" },
+        { name: "Mercedes-AMG GT", year: "2023", price: 259, passengers: 4, trans: "Auto", img: "https://images.unsplash.com/photo-1621135802920-133df287f89c?auto=format&fit=crop&w=800&q=80", badge: "Luxury" },
+        { name: "BMW i7", year: "2024", price: 179, passengers: 5, trans: "Auto", img: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80", badge: "Electric" },
+        { name: "Lamborghini Urus", year: "2024", price: 499, passengers: 5, trans: "Auto", img: "https://images.unsplash.com/photo-1580274455191-1c62238fa333?auto=format&fit=crop&w=800&q=80", badge: "Super SUV" }
+    ];
+
+    function loadCars() {
+        var grid = document.getElementById('carGrid');
+        if (!grid) return;
+
+        var html = '';
+
+        for (var i = 0; i < cars.length; i++) {
+            var car = cars[i];
+
+            html += `
+                <div class="car-card">
+                    <div class="car-img">
+                        <img src="${car.img}" alt="${car.name}" loading="lazy"
+                             onerror="this.src='https://placehold.co/800x600?text=Car+Image'">
+                        <div class="car-badge">${car.badge}</div>
+                    </div>
+                    <div class="car-info">
+                        <div class="car-title">${car.name} ${car.year}</div>
+                        <div class="car-meta">
+                            <span><i class="fas fa-users"></i> ${car.passengers} seats</span>
+                            <span><i class="fas fa-cog"></i> ${car.trans}</span>
+                        </div>
+                        <div class="car-price">$${car.price} <span>/ day</span></div>
+                        <button class="btn-glass"
+                            style="width:100%; background:#000; color:white;"
+                            onclick="bookCar('${car.name}')">
+                            Rent now →
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        grid.innerHTML = html;
+    }
+
+    function bookCar(name) {
+        alert("✨ " + name + " selected. Proceed to checkout.");
+    }
+
+    function searchCars() {
+        alert("🔍 Showing available cars in your area.");
+    }
+
+    function toggleMobileMenu() {
+        var nav = document.getElementById('navLinks');
+        if (nav) nav.classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+        var nav = document.getElementById('navLinks');
+        if (nav) nav.classList.remove('active');
+    }
+
+    function openOwnerModal() {
+        var el = document.getElementById('ownerModal');
+        if (el) el.style.display = 'flex';
+    }
+
+    function closeOwnerModal() {
+        var el = document.getElementById('ownerModal');
+        if (el) el.style.display = 'none';
+    }
+
+    function openLoginModal() {
+        var el = document.getElementById('loginModal');
+        if (el) el.style.display = 'flex';
+    }
+
+    function closeLoginModal() {
+        var el = document.getElementById('loginModal');
+        if (el) el.style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        loadCars(); // ✅ FIXED timing issue
+
+        var ownerForm = document.getElementById('ownerForm');
+        if (ownerForm) {
+            ownerForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                alert("✅ Thank you! We'll review your car within 24 hours.");
+                closeOwnerModal();
+            });
+        }
+
+        var loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                alert("🎉 Demo: Redirecting to dashboard.");
+                closeLoginModal();
+            });
+        }
+    });
+
+    window.onclick = function (event) {
+        var om = document.getElementById('ownerModal');
+        var lm = document.getElementById('loginModal');
+
+        if (event.target === om) closeOwnerModal();
+        if (event.target === lm) closeLoginModal();
+    };
+
+    var cursorDot = document.querySelector('.cursor-dot');
+    var cursorOutline = document.querySelector('.cursor-outline');
+
+    if (cursorDot && cursorOutline) {
+        window.addEventListener('mousemove', function (e) {
+            cursorDot.style.transform = "translate(" + (e.clientX - 3) + "px, " + (e.clientY - 3) + "px)";
+            cursorOutline.style.transform = "translate(" + (e.clientX - 20) + "px, " + (e.clientY - 20) + "px)";
+        });
+    }
+
+    window.addEventListener('scroll', function () {
+        var navbar = document.getElementById('navbar');
+        if (!navbar) return;
+
+        if (window.scrollY > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+    });
+</script>
+</body>
+</html>
